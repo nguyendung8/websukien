@@ -293,7 +293,7 @@ section{
 
 .header .header-2 .flex .navbar a:hover{
    color:var(--purple);
-   text-decoration: underline;
+   text-decoration: none;
 }
 
 .header .header-2 .flex .icons > *{

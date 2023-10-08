@@ -27,7 +27,7 @@
 <?php include 'header.php'; ?>
 
 <div class="heading">
-   <h3>Về Bookly.</h3>
+   <h3>Về Comic</h3>
    <p> <a href="home.php">Trang chủ</a> / Thông tin </p>
 </div>
 
@@ -40,9 +40,9 @@
       </div>
 
       <div class="content">
-         <h3>Tại sao lại có Bookly.</h3>
+         <h3>Tại sao lại có Comic.</h3>
          <p>Từ những bạn trẻ đam mê đọc những quyển truyện trinh thám và tiểu thuyết, chúng mình đã xây dựng nên website này để giúp mọi người có thể dễ dàng tìm kiếm và mua được những quyển truyện yêu thích của mình.</p>
-         <p>Qua một thời gian phát triển, Bookly mong muốn mang đến những quyển truyện hay, sâu sắc và hấp dẫn đến tay các bạn đọc.</p>
+         <p>Qua một thời gian phát triển, Comic mong muốn mang đến những quyển truyện hay, sâu sắc và hấp dẫn đến tay các bạn đọc.</p>
          <a href="contact.php" class="btn">Liên hệ</a>
       </div>
 
@@ -58,7 +58,7 @@
 
       <div class="box">
          <img src="images/pic-1.png" alt="">
-         <p>Cảm ơn Bookly. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
+         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -71,7 +71,7 @@
 
       <div class="box">
          <img src="images/pic-2.png" alt="">
-         <p>Cảm ơn Bookly. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
+         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -84,7 +84,7 @@
 
       <div class="box">
          <img src="images/pic-3.png" alt="">
-         <p>Cảm ơn Bookly. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
+         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -97,7 +97,7 @@
 
       <div class="box">
          <img src="images/pic-4.png" alt="">
-         <p>Cảm ơn Bookly. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
+         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -110,7 +110,7 @@
 
       <div class="box">
          <img src="images/pic-5.png" alt="">
-         <p>Cảm ơn Bookly. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
+         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -123,7 +123,7 @@
 
       <div class="box">
          <img src="images/pic-6.png" alt="">
-         <p>Cảm ơn Bookly. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
+         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
          <div class="stars">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -140,22 +140,22 @@
 
 <section class="authors">
 
-   <h1 class="title">Thành viên của Bookly.</h1>
+   <h1 class="title">Thành viên của Comic</h1>
 
    <div class="box-container">
 
       <div class="box">
-         <img src="images/author-1.jpg" alt="">
+         <img src="images/anhkien.jpg" alt="">
          <div class="share">
             <a href="#" class="fab fa-facebook-f"></a>
             <a href="#" class="fab fa-twitter"></a>
             <a href="#" class="fab fa-instagram"></a>
             <a href="#" class="fab fa-linkedin"></a>
          </div>
-         <h3>Nguyễn Duy Hùng</h3>
+         <h3>Bùi Trung Kiên</h3>
       </div>
 
-      <div class="box">
+      <!-- <div class="box">
          <img src="images/author-2.jpg" alt="">
          <div class="share">
             <a href="#" class="fab fa-facebook-f"></a>
@@ -164,9 +164,9 @@
             <a href="#" class="fab fa-linkedin"></a>
          </div>
          <h3>Trần Minh Thái</h3>
-      </div>
+      </div> -->
 
-      <div class="box">
+      <!-- <div class="box">
          <img src="images/author-3.jpg" alt="">
          <div class="share">
             <a href="#" class="fab fa-facebook-f"></a>
@@ -186,7 +186,7 @@
             <a href="#" class="fab fa-linkedin"></a>
          </div>
          <h3>Phan Mạnh Hoàng</h3>
-      </div>
+      </div> -->
 
    </div>
 

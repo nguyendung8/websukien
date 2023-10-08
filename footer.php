@@ -34,6 +34,6 @@
 
    </div>
 
-   <p class="credit"> &copy; copyright  @ <?php echo date('Y'); ?> by <span> Nhóm 7 _ PHP2022</span> </p>
+   <p class="credit"> &copy; Copyright  @ <?php echo date('Y'); ?> by <span> Bui Trung Kien</span> </p>
 
 </section>

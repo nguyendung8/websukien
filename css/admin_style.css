@@ -337,6 +337,7 @@ section{
 
 .show-products .box-container .box img{
    height: 30rem;
+   width: 256px;
 }
 
 .show-products .box-container .box .name{
@@ -497,7 +498,6 @@ section{
 .messages .box-container .box .delete-btn{
    margin-top: 0;
 }
-
 
 
 

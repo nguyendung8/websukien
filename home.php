@@ -18,7 +18,7 @@
       $product_quantity = $_POST['product_quantity'];
 
       if($product_quantity==0){
-         $message[] = 'sách đã hết hàng!';
+         $message[] = 'Truyện đã hết hàng!';
       }
       else{
          $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
@@ -32,10 +32,10 @@
                $num=$fetch_quantity['quantity'];
             }
             mysqli_query($conn, "UPDATE `cart` SET quantity='$num' WHERE name = '$product_name' AND user_id = '$user_id'");
-            $message[] = 'Sách đã có trong giỏ hàng và được thêm số lượng!';
+            $message[] = 'Truyện đã có trong giỏ hàng và được thêm số lượng!';
          }else{
             mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
-            $message[] = 'Sách đã được thêm vào giỏ hàng!';
+            $message[] = 'Truyện đã được thêm vào giỏ hàng!';
          }
       }
    }
@@ -70,7 +70,7 @@
 
 <section class="products">
 
-   <h1 class="title">Sách mới nhất</h1>
+   <h1 class="title">Truyện mới nhất</h1>
 
    <div class="box-container">
 
@@ -94,7 +94,7 @@
       <?php
             }
          }else{
-            echo '<p class="empty">Chưa có sách được bán!</p>';
+            echo '<p class="empty">Chưa có truyện được bán!</p>';
          }
       ?>
    </div>
@@ -114,7 +114,7 @@
       </div>
 
       <div class="content">
-         <h3>Bookly.</h3>
+         <h3>Comic</h3>
          <p>Từ hội những bạn trẻ yêu thích đọc truyện, chúng mình muốn cùng chia sẻ những đam mê và sở thích tới mọi người.</p>
       </div>
 

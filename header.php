@@ -27,7 +27,7 @@
 
    <div class="header-2">
       <div class="flex">
-         <a href="home.php" class="logo">Bookly.</a>
+         <a href="home.php" class="logo">Comic</a>
 
          <nav class="navbar">
             <a href="home.php">Trang chủ</a>

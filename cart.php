@@ -53,7 +53,7 @@
 
 <section class="shopping-cart">
 
-   <h1 class="title">Sách đã được thêm</h1>
+   <h1 class="title">Truyện đã được thêm</h1>
 
    <div class="box-container">
       <?php
