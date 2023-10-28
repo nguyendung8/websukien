@@ -17,9 +17,7 @@
       <div class="flex">
          <div class="share">
             <a href="#" class="fab fa-facebook-f"></a>
-            <a href="#" class="fab fa-twitter"></a>
             <a href="#" class="fab fa-instagram"></a>
-            <a href="#" class="fab fa-linkedin"></a>
          </div>
          <p><a href="login.php">Đăng nhập mới</a> | <a href="register.php">Đăng ký</a> </p>
       </div>
@@ -33,7 +31,7 @@
             <a href="home.php">Trang chủ</a>
             <a href="about.php">Thông tin</a>
             <a href="contact.php">Liên hệ</a>
-            <a href="orders.php">Đã mượn</a>
+            <a href="borrows.php">Đã mượn</a>
          </nav>
 
          <div class="icons">

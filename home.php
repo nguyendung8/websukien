@@ -10,36 +10,6 @@
       header('location:login.php');
    }
 
-   if(isset($_POST['add_to_cart'])){//thêm sách vào giỏi hàng từ form submit name='add_to_cart'
-
-      $product_name = $_POST['product_name'];
-      $product_price = $_POST['product_price'];
-      $product_image = $_POST['product_image'];
-      $product_quantity = $_POST['product_quantity'];
-
-      if($product_quantity==0){
-         $message[] = 'Truyện đã hết hàng!';
-      }
-      else{
-         $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
-
-         if(mysqli_num_rows($check_cart_numbers) > 0){//kiểm tra sách có trong giỏ hàng chưa và tăng số lượng
-            $result=mysqli_fetch_assoc($check_cart_numbers);
-            $num=$result['quantity']+$product_quantity;
-            $select_quantity = mysqli_query($conn, "SELECT * FROM `products` WHERE name='$product_name'");
-            $fetch_quantity = mysqli_fetch_assoc($select_quantity);
-            if($num>$fetch_quantity['quantity']){
-               $num=$fetch_quantity['quantity'];
-            }
-            mysqli_query($conn, "UPDATE `cart` SET quantity='$num' WHERE name = '$product_name' AND user_id = '$user_id'");
-            $message[] = 'Truyện đã có trong giỏ hàng và được thêm số lượng!';
-         }else{
-            mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
-            $message[] = 'Truyện đã được thêm vào giỏ hàng!';
-         }
-      }
-   }
-
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +22,17 @@
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
-
+   <link rel="stylesheet" href="./css/main.css">
+   <style>
+      .list-cate {
+         text-align: center;
+         font-size: 20px;
+         display: flex;
+         gap: 10px;
+         justify-content: center;
+         padding-bottom: 20px;
+      }
+   </style>
 </head>
 <body>
    
@@ -61,8 +41,8 @@
 <section class="home">
 
    <div class="content">
-      <h3>Mỗi ngày một quyển truyện.</h3>
-      <p>Những quyển truyện đều mang trong mình những bài học ý nghĩa, những trải nghiệm đáng giá.</p>
+      <h3>Mỗi ngày một quyển sách.</h3>
+      <p>Những quyển sách đều mang trong mình những bài học ý nghĩa, những trải nghiệm đáng giá.</p>
       <a href="about.php" class="white-btn">Khám phá thêm</a>
    </div>
 
@@ -70,55 +50,46 @@
 
 <section class="products">
 
-   <h1 class="title">Truyện mới nhất</h1>
-
-   <div class="box-container">
-
+   <h1 class="title">Danh sách sách cho mượn</h1>
+   <div class="list-cate">
       <?php  
-         $select_products = mysqli_query($conn, "SELECT * FROM `products` ORDER BY id DESC  LIMIT 6") or die('query failed');
-         if(mysqli_num_rows($select_products) > 0){
-            while($fetch_products = mysqli_fetch_assoc($select_products)){
+         $select_categoriess = mysqli_query($conn, "SELECT * FROM `categories`") or die('query failed');
+         if(mysqli_num_rows($select_categoriess) > 0){
+            while($fetch_categoriess = mysqli_fetch_assoc($select_categoriess)){
       ?>
-               <form action="" method="post" class="box">
-                  <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
-                  <div class="name"><?php echo $fetch_products['name']; ?> (<?php echo $fetch_products['category']; ?>)</div>
-                  <div class="name"><?php echo $fetch_products['describes']; ?></div>
-                  <div class="price"><?php echo number_format($fetch_products['newprice'],0,',','.' ); ?>/<span style="text-decoration-line:line-through"><?php echo number_format($fetch_products['price'],0,',','.' ); ?></span> VND (<?php echo $fetch_products['discount']; ?>% SL: <?php echo $fetch_products['quantity']; ?>)</div>
-                  <span style="font-size: 17px; display: flex;">Số lượng mua:</span>
-                  <input type="number" min="<?=($fetch_products['quantity']>0) ? 1:0 ?>" max="<?php echo $fetch_products['quantity']; ?>" name="product_quantity" value="<?=($fetch_products['quantity']>0) ? 1:0 ?>" class="qty">
-                  <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
-                  <input type="hidden" name="product_category" value="<?php echo $fetch_products['category']; ?>">
-                  <input type="hidden" name="product_price" value="<?php echo $fetch_products['newprice']; ?>">
-                  <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
-                  <input type="submit" value="Thêm vào giỏ hàng" name="add_to_cart" class="btn">
-               </form>
+                  <a href="?cate_id=<?php echo $fetch_categoriess['id']; ?> "><?php echo $fetch_categoriess['cate_name']; ?></a>
       <?php
             }
          }else{
-            echo '<p class="empty">Chưa có truyện được bán!</p>';
+            echo '<p class="empty">Chưa có danh mục nào!</p>';
          }
       ?>
    </div>
-
-   <div class="load-more" style="margin-top: 2rem; text-align:center">
-      <a href="shop.php" class="option-btn">Xem thêm</a>
-   </div>
-
-</section>
-
-<section class="about">
-
-   <div class="flex">
-
-      <div class="image">
-         <img src="images/about-img.jpg" alt="">
-      </div>
-
-      <div class="content">
-         <h3>Comic</h3>
-         <p>Từ hội những bạn trẻ yêu thích đọc truyện, chúng mình muốn cùng chia sẻ những đam mê và sở thích tới mọi người.</p>
-      </div>
-
+   <div class="box-container">
+      <?php
+      if(isset($_GET['cate_id'])) {
+         $cate_id = $_GET['cate_id'];
+      } else {
+         $cate_id =1;
+      }
+         $select_products = mysqli_query($conn, "SELECT b.* FROM books b JOIN categories c ON b.cate_id = c.id  WHERE cate_id = $cate_id AND b.quantity > 0") or die('query failed');
+         if(mysqli_num_rows($select_products) > 0){
+            while($fetch_products = mysqli_fetch_assoc($select_products)){
+      ?>
+         <form action="" method="post" class="box">
+            <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
+            <div class="name"><?php echo $fetch_products['name']; ?></div>
+            <div class="book-action">
+               <a href="book_detail.php?book_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin sách</a>
+               <a href="book_borrow.php?book_id=<?php echo $fetch_products['id'] ?>" class="borrow-book" >Mượn sách</a>
+            </div>
+         </form>
+      <?php
+            }
+         }else{
+            echo '<p class="empty">Chưa có truyện để cho mượn!</p>';
+         }
+      ?>
    </div>
 
 </section>
@@ -134,7 +105,6 @@
 </section>
 
 <?php include 'footer.php'; ?>
-
 <script src="js/script.js"></script>
 
 </body>

@@ -406,10 +406,6 @@ section{
    text-align: left;
 }
 
-.products .box-container .box .image{
-   height: 30rem;
-}
-
 .products .box-container .box .name{
    padding:1rem 0;
    font-size: 2rem;
@@ -676,10 +672,6 @@ section{
 
 .shopping-cart .box-container .box .fa-times:hover{
    background-color: var(--black);
-}
-
-.shopping-cart .box-container .box img{
-   height: 30rem;
 }
 
 .shopping-cart .box-container .box .name{

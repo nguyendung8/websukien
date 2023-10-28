@@ -40,103 +40,15 @@
       </div>
 
       <div class="content">
-         <h3>Tại sao lại có Comic.</h3>
-         <p>Từ những bạn trẻ đam mê đọc những quyển truyện trinh thám và tiểu thuyết, chúng mình đã xây dựng nên website này để giúp mọi người có thể dễ dàng tìm kiếm và mua được những quyển truyện yêu thích của mình.</p>
-         <p>Qua một thời gian phát triển, Comic mong muốn mang đến những quyển truyện hay, sâu sắc và hấp dẫn đến tay các bạn đọc.</p>
+         <h3>Tại sao chúng ta nên đọc sách mỗi ngày?</h3>
+         <p>Đọc sách giúp bạn trở nên tốt đẹp hơn.</p>
+         <p> Đọc sách đúng cách giúp kích thích não bộ phát triển tốt hơn, hạn chế lão hóa và giảm khả năng mất trí nhớ. Ngoài ra, đọc sách cũng giúp con người ta nâng cao hiểu biết, làm giàu vốn từ, tăng khả năng tư duy, nhìn nhận vấn đề.</p>
          <a href="contact.php" class="btn">Liên hệ</a>
       </div>
 
    </div>
 
 </section>
-
-<!-- <section class="reviews">
-
-   <h1 class="title">Phản hồi</h1>
-
-   <div class="box-container">
-
-      <div class="box">
-         <img src="images/pic-1.png" alt="">
-         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
-         <div class="stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-         </div>
-         <h3>Hoàng Văn Hải</h3>
-      </div>
-
-      <div class="box">
-         <img src="images/pic-2.png" alt="">
-         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
-         <div class="stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-         </div>
-         <h3>Nguyễn Thị Bích</h3>
-      </div>
-
-      <div class="box">
-         <img src="images/pic-3.png" alt="">
-         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
-         <div class="stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-         </div>
-         <h3>Đào Văn Mạnh</h3>
-      </div>
-
-      <div class="box">
-         <img src="images/pic-4.png" alt="">
-         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
-         <div class="stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-         </div>
-         <h3>Vũ Thùy Dương</h3>
-      </div>
-
-      <div class="box">
-         <img src="images/pic-5.png" alt="">
-         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
-         <div class="stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-         </div>
-         <h3>Lê Anh Thiện</h3>
-      </div>
-
-      <div class="box">
-         <img src="images/pic-6.png" alt="">
-         <p>Cảm ơn Comic. đã giúp mình tìm mua được quyển truyện yêu thích của mình.</p>
-         <div class="stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-         </div>
-         <h3>Bùi Anh Thư</h3>
-      </div>
-
-   </div>
-
-</section> -->
 
 <section class="authors">
 
@@ -148,46 +60,10 @@
          <img src="images/anhkien.jpg" alt="">
          <div class="share">
             <a href="#" class="fab fa-facebook-f"></a>
-            <a href="#" class="fab fa-twitter"></a>
             <a href="#" class="fab fa-instagram"></a>
-            <a href="#" class="fab fa-linkedin"></a>
          </div>
-         <h3>Bùi Trung Kiên</h3>
+         <h3>Nguyễn Tới</h3>
       </div>
-
-      <!-- <div class="box">
-         <img src="images/author-2.jpg" alt="">
-         <div class="share">
-            <a href="#" class="fab fa-facebook-f"></a>
-            <a href="#" class="fab fa-twitter"></a>
-            <a href="#" class="fab fa-instagram"></a>
-            <a href="#" class="fab fa-linkedin"></a>
-         </div>
-         <h3>Trần Minh Thái</h3>
-      </div> -->
-
-      <!-- <div class="box">
-         <img src="images/author-3.jpg" alt="">
-         <div class="share">
-            <a href="#" class="fab fa-facebook-f"></a>
-            <a href="#" class="fab fa-twitter"></a>
-            <a href="#" class="fab fa-instagram"></a>
-            <a href="#" class="fab fa-linkedin"></a>
-         </div>
-         <h3>Hoàng Quốc Chung</h3>
-      </div>
-
-      <div class="box">
-         <img src="images/author-5.jpg" alt="">
-         <div class="share">
-            <a href="#" class="fab fa-facebook-f"></a>
-            <a href="#" class="fab fa-twitter"></a>
-            <a href="#" class="fab fa-instagram"></a>
-            <a href="#" class="fab fa-linkedin"></a>
-         </div>
-         <h3>Phan Mạnh Hoàng</h3>
-      </div> -->
-
    </div>
 
 </section>
