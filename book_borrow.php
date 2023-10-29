@@ -11,11 +11,19 @@
    }
    $book_id = $_GET['book_id'];
 
+   // Lấy ra thông tin sách
    $sql = "SELECT * FROM books WHERE id = $book_id";
    $result = $conn->query($sql);
    $bookItem = $result->fetch_assoc();
 
+   // Lấy ra thông tin user
+   $sql1 = "SELECT * FROM users WHERE id = $user_id";
+   $result1 = $conn->query($sql1);
+   $user = $result1->fetch_assoc();
+
+   // Lúc click vào nút mượn
    if(isset($_POST['submit'])) {
+      $userName = $user['name'];
       $userId = $user_id;
       $book_name = $bookItem['name'];
       $book_img = $bookItem['image'];
@@ -23,7 +31,7 @@
       $phone = mysqli_real_escape_string($conn, $_POST['phone']);
       $expired_time = mysqli_real_escape_string($conn, $_POST['expired_time']);
 
-      mysqli_query($conn, "INSERT INTO `borrows`(user_id, book_name, book_img, email, phone, expired_time) VALUES('$userId', '$book_name', '$book_img', '$email', '$phone', '$expired_time')") or die('query failed');
+      mysqli_query($conn, "INSERT INTO `borrows`(user_id, book_name, book_img, user_name, email, phone, expired_time) VALUES('$userId', '$book_name', '$book_img', '$userName', '$email', '$phone', '$expired_time')") or die('query failed');
       $message[] = 'Mượn sách thành công!';
       header('location:home.php');
    }

@@ -18,43 +18,65 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Đơn hàng</title>
+   <title>Danh sách phiếu mượn</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
-
+   <style>
+      .borrow-container {
+         display: flex;
+         gap: 10px;
+         flex-wrap: wrap;
+      }
+      .borrow-box {
+         font-size: 19px;
+         border: 2px solid #eee;
+         border-radius: 4px;
+         padding: 12px;
+         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      }
+      .borrow-box p {
+         padding: 4px 0;
+      }
+   </style>
 </head>
 <body>
    
 <?php include 'header.php'; ?>
 
 <div class="heading">
-   <h3>Đơn hàng của bạn</h3>
-   <p> <a href="home.php">Trang chủ</a> / Đơn hàng </p>
+   <h3>Danh sách phiếu mượn</h3>
+   <p> <a href="home.php">Trang chủ</a> / Danh sách phiếu mượn  </p>
 </div>
 
 <section class="placed-orders">
 
-   <h1 class="title">Đặt hàng</h1>
+   <h1 class="title">Danh sách phiếu mượn của bạn</h1>
 
-   <div class="box-container">
+   <div class="borrow-container">
 
       <?php
-         $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE user_id = '$user_id'") or die('query failed');
+         $order_query = mysqli_query($conn, "SELECT * FROM `borrows` WHERE user_id = '$user_id'") or die('query failed');
          if(mysqli_num_rows($order_query) > 0){
-            while($fetch_orders = mysqli_fetch_assoc($order_query)){
+            while($fetch_borrows = mysqli_fetch_assoc($order_query)){
       ?>
-      <div class="box">
-         <p> Ngày đặt hàng : <span><?php echo $fetch_orders['placed_on']; ?></span> </p>
-         <p> Họ tên : <span><?php echo $fetch_orders['name']; ?></span> </p>
-         <p> Số điện thoại : <span><?php echo $fetch_orders['number']; ?></span> </p>
-         <p> Email : <span><?php echo $fetch_orders['email']; ?></span> </p>
-         <p> Địa chỉ : <span><?php echo $fetch_orders['address']; ?></span> </p>
-         <p> Ghi chú : <span><?php echo $fetch_orders['note']; ?></span> </p>
-         <p> Phương thức thanh toán : <span><?php echo $fetch_orders['method']; ?></span> </p>
-         <p> Đơn hàng : <span><?php echo $fetch_orders['total_products']; ?></span> </p>
-         <p> Tổng giá : <span><?php echo $fetch_orders['total_price']; ?> VND</span> </p>
-         <p> Trạng thái  : <span style="color:<?php if($fetch_orders['payment_status'] == 'Hoàn thành'){ echo 'green'; }else if($fetch_orders['payment_status'] == 'Chờ xác nhận'){ echo 'red'; }else{ echo 'orange'; } ?>;"><?php echo $fetch_orders['payment_status']; ?></span> </p>
+      <div class="borrow-box">
+         <p> Tên : <span><?php echo $fetch_borrows['user_name']; ?></span> </p>
+         <p> Email : <span><?php echo $fetch_borrows['email']; ?></span> </p>
+         <p> Số điện thoại : <span><?php echo $fetch_borrows['phone']; ?></span> </p>
+         <p> Tên sách : <span><?php echo $fetch_borrows['book_name']; ?></span> </p>
+         <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_borrows['book_img']; ?>" alt="">
+         <p> Thời hạn mượn : <span><?php echo $fetch_borrows['expired_time']; ?> ngày</span> </p>
+         <p> Trạng thái  : 
+            <span style="color:<?php if($fetch_borrows['is_confirmed'] == 1){ echo 'green'; }else if($fetch_borrows['is_confirmed'] == '0'){ echo 'red'; }else{ echo 'orange'; } ?>;">
+               <?php if ($fetch_borrows['is_confirmed'] == 1) {
+                     echo 'Đã duyệt';
+                  } else {
+                     echo 'Chờ xử lý';
+                  }
+               ?>
+            </span> 
+         </p>
          </div>
       <?php
        }
