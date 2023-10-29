@@ -85,6 +85,10 @@
                Tác giả: 
                <?php echo ($bookItem['author']) ?>
             </p>
+            <p class="bookdetail-author">
+               Số lượng còn: 
+               <?php echo ($bookItem['quantity']) ?> quyển
+            </p>
             <p class="bookdetail-desc">
                Mô tả: 
                <?php echo($bookItem['describes'])  ?>

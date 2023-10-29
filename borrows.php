@@ -66,6 +66,7 @@
          <p> Số điện thoại : <span><?php echo $fetch_borrows['phone']; ?></span> </p>
          <p> Tên sách : <span><?php echo $fetch_borrows['book_name']; ?></span> </p>
          <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_borrows['book_img']; ?>" alt="">
+         <p> Số lượng mượn : <span><?php echo $fetch_borrows['borrow_quantity']; ?> quyển</span> </p>
          <p> Thời hạn mượn : <span><?php echo $fetch_borrows['expired_time']; ?> ngày</span> </p>
          <p> Trạng thái  : 
             <span style="color:<?php if($fetch_borrows['is_confirmed'] == 1){ echo 'green'; }else if($fetch_borrows['is_confirmed'] == '0'){ echo 'red'; }else{ echo 'orange'; } ?>;">

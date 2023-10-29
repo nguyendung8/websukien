@@ -13,6 +13,7 @@
       if(mysqli_num_rows($select_users) > 0){//kiểm tra tài khoản có tồn tại không
 
          $row = mysqli_fetch_assoc($select_users);
+         $user_id = $row['id'];
          //kiểm tra quyền của tài khoản và đưa đến trang tương ứng
          if($row['user_type'] == 'admin'){
 
@@ -26,6 +27,8 @@
             $_SESSION['user_name'] = $row['name'];
             $_SESSION['user_email'] = $row['email'];
             $_SESSION['user_id'] = $row['id'];
+            // Cập nhật login
+            mysqli_query($conn, "UPDATE users SET is_logged_in = 1 WHERE id = $user_id") or die('query failed');
             header('location:home.php');
 
          }

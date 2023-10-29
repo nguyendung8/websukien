@@ -9,65 +9,25 @@
    if(!isset($admin_id)){// session không tồn tại => quay lại trang đăng nhập
       header('location:login.php');
    };
+   
+   // Click duyệt
+   if(isset($_POST['confirmed'])) {
+      $book_id = $_POST['book_id'];
+      
+      // Lấy thông tin sách
+      $sql = "SELECT * FROM books WHERE id = $book_id";
+      $result = $conn->query($sql);
+      $bookItem = $result->fetch_assoc();
+      $book_current_quantity = $bookItem['quantity'];
 
-   if(isset($_POST['update_order'])){//cập nhật trạng thái đơn hàng từ submit='update_order'
-
-      $order_update_id = $_POST['order_id'];
-      $update_payment = $_POST['update_payment'];
-      mysqli_query($conn, "UPDATE `orders` SET payment_status = '$update_payment' WHERE id = '$order_update_id'") or die('query failed');
-      $message[] = 'Trạng thái đơn hàng đã được cập nhật!';
-
-   }
-
-   if(isset($_GET['return'])){//khôi phục đơn hàng
-      $return = $_GET['return'];
-      $return_status = "Chờ xác nhận";
-
-      $total_products= $_GET['products'];
-      $products = explode(', ', $total_products);//tách riêng từng sách
-      for($i=0; $i<count($products); $i++){
-         $quantity = explode('-', $products[$i]);//tách sách với số lượng tương ứng cần hủy
-         $nums = mysqli_query($conn, "SELECT * FROM `products` WHERE name = '$quantity[0]'");
-         $res = mysqli_fetch_assoc($nums);
-         $return_quantity = $res['quantity'] - $quantity[1];
-         mysqli_query($conn, "UPDATE `products` SET quantity = '$return_quantity' WHERE name = '$quantity[0]' ");
-      }
-      mysqli_query($conn, "UPDATE `orders` SET payment_status = '$return_status' WHERE id = '$return'") or die('query failed');
-      header('location:admin_orders.php');
-   }
-
-   if(isset($_GET['cancel'])){//hủy đơn hàng từ onclick <a></a> href='delete'
-      $cancel_id = $_GET['cancel'];
-      $status = $_GET['status'];
-      $total_products= $_GET['products'];
-      if($status=="Chờ xác nhận"){
-         $products = explode(', ', $total_products);//tách riêng từng sách
-         for($i=0; $i<count($products); $i++){
-            $quantity = explode('-', $products[$i]);//tách sách với số lượng tương ứng cần hủy
-            $nums = mysqli_query($conn, "SELECT * FROM `products` WHERE name = '$quantity[0]'");
-            $res = mysqli_fetch_assoc($nums);
-            $return_quantity = $quantity[1]+$res['quantity'];
-            mysqli_query($conn, "UPDATE `products` SET quantity = '$return_quantity' WHERE name = '$quantity[0]' ") or die('query failed');
-         }
-         $status = "Đã hủy";
-         mysqli_query($conn, "UPDATE `orders` SET payment_status = '$status' WHERE id = '$cancel_id'") or die('query failed');
-         header('location:admin_orders.php');
-      }else if($status=="Đã hủy"){
-         $message[]="Đơn hàng đã được hủy trước đó!";
-      }
-      else{
-         $message[]="Không thể hủy đơn hàng đã qua xác nhận!";
-      }
-   }
-
-   if(isset($_GET['delete'])){
-      $delete_id = $_GET['delete'];
-      $status = $_GET['status'];
-      if($status == "Đã hủy" || $status == "Hoàn thành"){
-         mysqli_query($conn, "DELETE FROM `orders` WHERE id = '$delete_id'") or die('query failed');
-         header('location:admin_orders.php');
-      }else{
-         $message[]="Không thể xóa đơn hàng đang trong quá trình xử lý!";
+      $book_quantity = $_POST['book_quantity'];
+      $borrow_id = $_POST['borrow_id'];
+      if($book_current_quantity >= $book_quantity) {
+         mysqli_query($conn, "UPDATE books SET quantity = quantity - $book_quantity WHERE id = $book_id;") or die('query failed');
+         mysqli_query($conn1, "UPDATE borrows SET borrows.is_confirmed = 1 WHERE borrows.id = $borrow_id;") or die('query failed');
+         $message[] = 'Duyệt sách thành công!';
+      } else {
+         $message[] = 'Số lượng sách này ở trong kho hiện tại không đủ, hãy nhập thêm sách!';
       }
    }
 
@@ -79,11 +39,24 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Đơn hàng</title>
+   <title>Phiếu mượn</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/admin_style.css">
 
+   <style>
+      .confirm-btn {
+         margin-top: 16px;
+         padding: 7px 16px;
+         border-radius: 4px;
+         font-size: 18px;
+         color: #fff;
+         cursor: pointer;
+      }
+      .confirm-btn:hover {
+         opacity: 0.8;
+      }
+   </style>
 </head>
 <body>
    
@@ -91,48 +64,36 @@
 
 <section class="orders">
 
-   <h1 class="title">Đơn đặt hàng</h1>
-
+   <h1 class="title">Phiếu mượn</h1>
    <div class="box-container">
       <?php
-         $select_orders = mysqli_query($conn, "SELECT * FROM `orders`") or die('query failed');
+         $select_orders = mysqli_query($conn, "SELECT * FROM `borrows`") or die('query failed');
          if(mysqli_num_rows($select_orders) > 0){
-            while($fetch_orders = mysqli_fetch_assoc($select_orders)){
+            while($fetch_borrows = mysqli_fetch_assoc($select_orders)){
       ?>
-               <div class="box">
-                  <p> Id người dùng : <span><?php echo $fetch_orders['user_id']; ?></span> </p>
-                  <p> Ngày đặt : <span><?php echo $fetch_orders['placed_on']; ?></span> </p>
-                  <p> Tên : <span><?php echo $fetch_orders['name']; ?></span> </p>
-                  <p> Số điện thoại : <span><?php echo $fetch_orders['number']; ?></span> </p>
-                  <p> Email : <span><?php echo $fetch_orders['email']; ?></span> </p>
-                  <p> Địa chỉ : <span><?php echo $fetch_orders['address']; ?></span> </p>
-                  <p> Ghi chú : <span><?php echo $fetch_orders['note']; ?></span> </p>
-                  <p> Tổng truyện : <span><?php echo $fetch_orders['total_products']; ?></span> </p>
-                  <p> Tổng giá : <span><?php echo number_format($fetch_orders['total_price'],0,',','.' ); ?> VND</span> </p>
-                  <p> Phương thức thanh toán : <span><?php echo $fetch_orders['method']; ?></span> </p>
+               <div style="text-align: center;" class="box">
+                  <p> User id : <span><?php echo $fetch_borrows['user_id']; ?></span> </p>
+                  <p> Tên : <span><?php echo $fetch_borrows['user_name']; ?></span> </p>
+                  <p> Email : <span><?php echo $fetch_borrows['email']; ?></span> </p>
+                  <p> Số điện thoại : <span><?php echo $fetch_borrows['phone']; ?></span> </p>
+                  <p> Tên sách : <span><?php echo $fetch_borrows['book_name']; ?></span> </p>
+                  <p> Số lượng mượn : <span><?php echo $fetch_borrows['borrow_quantity']; ?> quyển</span> </p>
+                  <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_borrows['book_img']; ?>" alt="">
+                  <p style="margin-top: 10px;"> Trạng thái  : 
+                     <span style="color:<?php if($fetch_borrows['is_confirmed'] == 1){ echo 'green'; }else if($fetch_borrows['is_confirmed'] == '0'){ echo 'red'; }else{ echo 'orange'; } ?>;">
+                        <?php if ($fetch_borrows['is_confirmed'] == 1) {
+                              echo 'Đã duyệt';
+                           } else {
+                              echo 'Chờ xử lý';
+                           }
+                        ?>
+                     </span> 
+                  </p>
                   <form action="" method="post">
-                     <input type="hidden" name="order_id" value="<?php echo $fetch_orders['id']; ?>">
-      <?php
-                     if($fetch_orders['payment_status']=="Đã hủy"){
-                        echo "<p class='empty' style='color:red'>Đã hủy đơn hàng này.</p>";
-      ?>
-                        <a href="admin_orders.php?return=<?=$fetch_orders['id']?>& products=<?=$fetch_orders['total_products']?>" onclick="return confirm('Khôi phục đơn hàng này?');" class="option-btn">Khôi phục</a>
-      <?php
-                     }else{
-         ?>
-                        <select name="update_payment" required>
-                           <option value="" selected disabled><?php echo $fetch_orders['payment_status']; ?></option>
-                           <!-- <option value="Chờ xác nhận">Chờ xác nhận</option> -->
-                           <option value="Đã xác nhận">Đã xác nhận</option>
-                           <option value="Đang xử lý">Đang xử lý</option>
-                           <option value="Hoàn thành">Hoàn thành</option>
-                        </select>
-                        <input type="submit" value="Cập nhật" name="update_order" class="option-btn">
-      <?php
-                     }
-      ?>
-                     <a href="admin_orders.php?cancel=<?=$fetch_orders['id']?>& status=<?=$fetch_orders['payment_status']?>& products=<?=$fetch_orders['total_products']?>" onclick="return confirm('Hủy đơn hàng này?');" class="delete-btn">Hủy</a>
-                     <a href="admin_orders.php?delete=<?=$fetch_orders['id']?>& status=<?=$fetch_orders['payment_status']?>" onclick="return confirm('Xóa đơn hàng này?');" class="delete-btn">Xóa</a>
+                     <input type="hidden" name="book_id" value="<?php echo $fetch_borrows['book_id'] ?>">
+                     <input type="hidden" name="book_quantity" value="<?php echo $fetch_borrows['borrow_quantity'] ?>">
+                     <input type="hidden" name="borrow_id" value="<?php echo $fetch_borrows['id'] ?>">
+                     <input style="background:<?php if($fetch_borrows['is_confirmed'] == 1){ echo '#12c811c7'; } else{ echo 'red'; } ?>;" class="confirm-btn" type="submit" value=" <?php if ($fetch_borrows['is_confirmed'] == 1) {echo 'Đã duyệt'; } else { echo 'Duyệt';}  ?>" name="confirmed" <?php if($fetch_borrows['is_confirmed'] == 1) echo 'disabled' ?> >
                   </form>
                </div>
       <?php

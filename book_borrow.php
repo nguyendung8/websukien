@@ -27,11 +27,12 @@
       $userId = $user_id;
       $book_name = $bookItem['name'];
       $book_img = $bookItem['image'];
+      $book_quantity = $_POST['quantity'];
       $email = mysqli_real_escape_string($conn, $_POST['email']);
       $phone = mysqli_real_escape_string($conn, $_POST['phone']);
       $expired_time = mysqli_real_escape_string($conn, $_POST['expired_time']);
 
-      mysqli_query($conn, "INSERT INTO `borrows`(user_id, book_name, book_img, user_name, email, phone, expired_time) VALUES('$userId', '$book_name', '$book_img', '$userName', '$email', '$phone', '$expired_time')") or die('query failed');
+      mysqli_query($conn, "INSERT INTO `borrows`(user_id, book_id, book_name, borrow_quantity, book_img, user_name, email, phone, expired_time) VALUES('$userId', '$book_id', '$book_name','$book_quantity', '$book_img', '$userName', '$email', '$phone', '$expired_time')") or die('query failed');
       $message[] = 'Mượn sách thành công!';
       header('location:home.php');
    }
@@ -140,11 +141,11 @@
                </div>
                <div class="form-item">
                   <label for="">Số lượng mượn: </label>
-                  <input type="text" max="<?php echo $bookItem['quantity']; ?>" min="<?=($bookItem['quantity']>0) ? 1:0 ?>" name="quantity" id="" placeholder="Nhập thời hạn mượn sách" required>
+                  <input style=" width: 74%;" type="number" max="<?php echo $bookItem['quantity']; ?>" min="<?=($bookItem['quantity']>0) ? 1:0 ?>" name="quantity" placeholder="Nhập số lượng mượn" required>
                </div>
             </div>
             <div class="borrow-input">
-               <div style="margin-left: 23px;" class="form-item">
+               <div style="margin-left: 52px;" class="form-item">
                   <label for="">Email: </label>
                   <input type="email" name="email" id="" placeholder="Nhập email" required>
                </div>
