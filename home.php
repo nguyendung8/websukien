@@ -32,6 +32,30 @@
          justify-content: center;
          padding-bottom: 20px;
       }
+      .slideshow-container {
+         position: relative;
+         max-width: 800px;
+         margin: 0 auto;
+         overflow: hidden; /* Để ẩn phần ngoài khung hình ảnh */
+      }
+      .slide {
+         display: none;
+         animation: fade 2s ease-in-out infinite; /* Sử dụng animation để thêm hiệu ứng lướt sang */
+      }
+      @keyframes fade {
+         0%, 100% {
+            opacity: 0;
+         }
+         25%, 75% {
+            opacity: 1;
+         }
+      }
+      .slide img {
+         width: 100%;
+         height: 485px;
+         border-radius: 9px;
+      }
+
    </style>
 </head>
 <body>
@@ -41,9 +65,32 @@
 <section class="home">
 
    <div class="content">
-      <h3>Mỗi ngày một quyển sách.</h3>
+      <div class="slideshow-container">
+         <div class="slide fade">
+            <img src="./images/slide1.jpg" alt="slide 1">
+         </div>
+         <div class="slide fade">
+            <img src="./images/slide2.jpg" alt="slide 2">
+         </div>
+         <div class="slide fade">
+            <img src="./images/slide3.jpg" alt="slide 3">
+         </div>
+         <div class="slide fade">
+            <img src="./images/slide4.jpg" alt="slide 3">
+         </div>
+         <div class="slide fade">
+            <img src="./images/slide5.jpg" alt="slide 3">
+         </div>
+         <div class="slide fade">
+            <img src="./images/slide6.jpg" alt="slide 3">
+         </div>
+         <div class="slide fade">
+            <img src="./images/slide7.jpg" alt="slide 3">
+         </div>
+      </div>
+      <!-- <h3>Mỗi ngày một quyển sách.</h3>
       <p>Những quyển sách đều mang trong mình những bài học ý nghĩa, những trải nghiệm đáng giá.</p>
-      <a href="about.php" class="white-btn">Khám phá thêm</a>
+      <a href="about.php" class="white-btn">Khám phá thêm</a> -->
    </div>
 
 </section>
@@ -106,6 +153,7 @@
 
 <?php include 'footer.php'; ?>
 <script src="js/script.js"></script>
+<script src="./js/slide_show.js" ></script>
 
 </body>
 </html>
