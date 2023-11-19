@@ -50,7 +50,6 @@
 
    <h1 class="title"> Tài khoản người dùng </h1>
 
-   <h2 class="total-view">Số lượng người dùng đang xem sách: <?php echo($totalView) ?> </h2>
    <div class="box-container">
       <?php
          $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('query failed');

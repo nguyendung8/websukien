@@ -15,35 +15,38 @@
       $name = mysqli_real_escape_string($conn, $_POST['name']);
       $director = mysqli_real_escape_string($conn, $_POST['director']);
       $category = mysqli_real_escape_string($conn, $_POST['category']);
+      $performer = mysqli_real_escape_string($conn, $_POST['performer']);
+      $origin = mysqli_real_escape_string($conn, $_POST['origin']);
+      $age_limit = mysqli_real_escape_string($conn, $_POST['age_limit']);
+      $show_time = mysqli_real_escape_string($conn, $_POST['show_time']);
       $quantity = $_POST['quantity'];
-      $describe = $_POST['describe'];
       $image = $_FILES['image']['name'];
       $image_size = $_FILES['image']['size'];
       $image_tmp_name = $_FILES['image']['tmp_name'];
       $image_folder = 'uploaded_img/'.$image;
 
-      $select_product_name = mysqli_query($conn, "SELECT name FROM `books` WHERE name = '$name'") or die('query failed');//truy vấn kiểm tra sách đã tồn tại chưa
+      $select_product_name = mysqli_query($conn, "SELECT name FROM `films` WHERE name = '$name'") or die('query failed');//truy vấn kiểm tra phim đã tồn tại chưa
 
       if(mysqli_num_rows($select_product_name) > 0){
-         $message[] = 'Sách đã tồn tại.';
+         $message[] = 'Phim đã tồn tại.';
       }else{//chưa thì thêm mới
-         $add_product_query = mysqli_query($conn, "INSERT INTO `books`(name, author, cate_id, quantity, describes, image) VALUES('$name', '$author', '$category', '$quantity', '$describe', '$image')") or die('query failed');
+         $add_product_query = mysqli_query($conn, "INSERT INTO `films`(name, director, cate_id, performer, origin, age_limit, show_time, seat_quantity, image) VALUES('$name', '$director', '$category', '$performer', '$origin', '$age_limit', '$show_time', '$quantity', '$image')") or die('query failed');
          if($add_product_query){
             if($image_size > 2000000){//kiểm tra kích thước ảnh
                $message[] = 'Kích tước ảnh quá lớn, hãy cập nhật lại ảnh!';
             }else{
                move_uploaded_file($image_tmp_name, $image_folder);//lưu file ảnh xuống
-               $message[] = 'Thêm sách thành công!';
+               $message[] = 'Thêm phim thành công!';
             }
          }else{
-            $message[] = 'Thêm sách không thành công!';
+            $message[] = 'Thêm phim không thành công!';
          }
       }
    }
 
    if(isset($_GET['delete'])){//xóa sách từ onclick <a></a> href='delete'
       $delete_id = $_GET['delete'];
-      $delete_image_query = mysqli_query($conn, "SELECT image FROM `books` WHERE id = '$delete_id'") or die('query failed');
+      $delete_image_query = mysqli_query($conn, "SELECT image FROM `films` WHERE id = '$delete_id'") or die('query failed');
       $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
       unlink('uploaded_img/'.$fetch_delete_image['image']);//xóa file ảnh của sách cần xóa
       mysqli_query($conn, "DELETE FROM `books` WHERE id = '$delete_id'") or die('query failed');
@@ -54,12 +57,12 @@
 
       $update_p_id = $_POST['update_p_id'];
       $update_name = $_POST['update_name'];
-      $update_author = $_POST['update_author'];
+      $update_director = $_POST['update_director'];
       $update_category = $_POST['update_category'];
       $update_quantity = $_POST['update_quantity'];
-      $update_describe = $_POST['update_describe'];
+      $update_origin = $_POST['update_origin'];
 
-      mysqli_query($conn, "UPDATE `books` SET name = '$update_name', author = '$update_author', cate_id='$update_category', quantity='$update_quantity', describes='$update_describe' WHERE id = '$update_p_id'") or die('query failed');
+      mysqli_query($conn, "UPDATE `films` SET name = '$update_name', director = '$update_director', cate_id='$update_category', seat_quantity='$update_quantity', origin='$update_origin' WHERE id = '$update_p_id'") or die('query failed');
 
       header('location:admin_products.php');
 
@@ -107,7 +110,7 @@
       <input type="text" name="performer" class="box" placeholder="Diễn viên" required>
       <input type="text" name="origin" class="box" placeholder="Xuất xứ" required>
       <input type="text" name="age_limit" class="box" placeholder="Giới hạn độ tuổi" required>
-      <input type="text" name="show_time" class="box" placeholder="Thời gian chiếu" required>
+      <input type="text" name="show_time" class="box" placeholder="Thời lượng" required>
       <input type="number" min="1" name="quantity" class="box" placeholder="Số lượng ghế" required>
       <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box" required>
       <input type="submit" value="Thêm" name="add_product" class="btn">
@@ -120,7 +123,7 @@
    <div class="box-container">
 
       <?php
-         $select_products = mysqli_query($conn, "SELECT * FROM `books`") or die('query failed');
+         $select_products = mysqli_query($conn, "SELECT * FROM `films`") or die('query failed');
          if(mysqli_num_rows($select_products) > 0){
             while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
@@ -133,7 +136,7 @@
       <?php
             }
       }else{
-         echo '<p class="empty">Không có truyện nào được thêm!</p>';
+         echo '<p class="empty">Không có phim nào được thêm!</p>';
       }
       ?>
    </div>
@@ -145,7 +148,7 @@
    <?php
       if(isset($_GET['update'])){//hiện form update từ onclick <a></a> href='update'
          $update_id = $_GET['update'];
-         $update_query = mysqli_query($conn, "SELECT * FROM `books` WHERE id = '$update_id'") or die('query failed');
+         $update_query = mysqli_query($conn, "SELECT * FROM `films` WHERE id = '$update_id'") or die('query failed');
          if(mysqli_num_rows($update_query) > 0){
             while($fetch_update = mysqli_fetch_assoc($update_query)){
    ?>
@@ -153,13 +156,14 @@
                   <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['id']; ?>">
                   <img src="uploaded_img/<?php echo $fetch_update['image']; ?>" alt="">
                   <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Tên truyện">
-                  <input type="text" name="update_author" value="<?php echo $fetch_update['author']; ?>" class="box" required placeholder="Tác giả">
+                  <input type="text" name="update_director" value="<?php echo $fetch_update['director']; ?>" class="box" required placeholder="Đạo diễn">
+                  <input type="text" name="update_origin" value="<?php echo $fetch_update['origin']; ?>" class="box" required placeholder="Xuất xứ">
                   <select name="update_category" class="box">
                      <?php
                         $cate_id = $fetch_update['cate_id'];
                         $select_category_name= mysqli_query($conn, "SELECT * FROM `categories` c WHERE c.id = $cate_id") or die('Truy vấn lỗi');
                         while($fetch_category_name=mysqli_fetch_assoc($select_category_name)){
-                           echo"<option>".$fetch_category_name['cate_name']."</option>";
+                           echo"<option value='" .$fetch_category_name['id'] . "'>".$fetch_category_name['cate_name']."</option>";
                         }
                      ?>
                      <?php
@@ -174,8 +178,7 @@
                         }
                      ?>
                   </select>
-                  <input type="number" name="update_quantity" value="<?php echo $fetch_update['quantity']; ?>" min="0" class="box" required placeholder="Số lượng truyện">
-                  <input type="text" name="update_describe" value="<?php echo $fetch_update['describes']; ?>" class="box" required placeholder="Mô tả">
+                  <input type="number" name="update_quantity" value="<?php echo $fetch_update['seat_quantity']; ?>" min="0" class="box" required placeholder="Số lượng ghế">
                   <input type="submit" value="update" name="update_product" class="btn">
                   <input type="reset" value="cancel" id="close-update" class="option-btn">
                </form>
