@@ -13,7 +13,7 @@
    if(isset($_POST['add_product'])){//thêm sách mới từ submit form name='add_product'
 
       $name = mysqli_real_escape_string($conn, $_POST['name']);
-      $author = mysqli_real_escape_string($conn, $_POST['author']);
+      $director = mysqli_real_escape_string($conn, $_POST['director']);
       $category = mysqli_real_escape_string($conn, $_POST['category']);
       $quantity = $_POST['quantity'];
       $describe = $_POST['describe'];
@@ -73,7 +73,7 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Sách</title>
+   <title>Phim</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/admin_style.css">
@@ -85,12 +85,12 @@
 
 <section class="add-products">
 
-   <h1 class="title">Sách</h1>
+   <h1 class="title">Phim</h1>
 
    <form action="" method="post" enctype="multipart/form-data">
-      <h3>Thêm sách</h3>
-      <input type="text" name="name" class="box" placeholder="Tên sách" required>
-      <input type="text" name="author" class="box" placeholder="Tác giả" required>
+      <h3>Thêm phim</h3>
+      <input type="text" name="name" class="box" placeholder="Tên phim" required>
+      <input type="text" name="director" class="box" placeholder="Đạo diễn" required>
       <select name="category" class="box">
          <?php
             $select_category= mysqli_query($conn, "SELECT * FROM `categories`") or die('Query failed');
@@ -100,12 +100,15 @@
                }
             }
             else{
-               echo "<option>Không có danh mục nào.</option>";
+               echo "<option>Không có thể loại nào.</option>";
             }
          ?>
       </select>
-      <input type="number" min="1" name="quantity" class="box" placeholder="Số lượng" required>
-      <input type="text" name="describe" class="box" placeholder="Mô tả" required>
+      <input type="text" name="performer" class="box" placeholder="Diễn viên" required>
+      <input type="text" name="origin" class="box" placeholder="Xuất xứ" required>
+      <input type="text" name="age_limit" class="box" placeholder="Giới hạn độ tuổi" required>
+      <input type="text" name="show_time" class="box" placeholder="Thời gian chiếu" required>
+      <input type="number" min="1" name="quantity" class="box" placeholder="Số lượng ghế" required>
       <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box" required>
       <input type="submit" value="Thêm" name="add_product" class="btn">
    </form>
