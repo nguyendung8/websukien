@@ -30,7 +30,25 @@
          display: flex;
          gap: 10px;
          justify-content: center;
-         padding-bottom: 20px;
+         border: 1px solid #ddd;
+         margin: auto;
+         margin-bottom: 20px;
+         padding: 14px;
+         width: fit-content;
+         border-radius: 3px;
+         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+      .list-cate a {
+         border-right: 1px solid #ddd;
+         padding-right: 11px;
+         color: #e22121;
+      }
+      .list-cate a:hover {
+         opacity: 0.7;
+      }
+      .list-cate a:last-child {
+         border-right: 0;
+         padding: 0;
       }
       .slideshow-container {
          position: relative;
@@ -54,6 +72,18 @@
          width: 100%;
          height: 485px;
          border-radius: 9px;
+      }
+      .borrow_book:hover { 
+         opacity: 0.9;
+      }
+      .borrow_book {
+         padding: 5px 25px;
+         background-image: linear-gradient(to right, #ff9800, #F7695D);
+         border-radius: 4px;
+         cursor: pointer;
+         font-size: 20px;
+         color: #fff;
+         font-weight: 700;
       }
 
    </style>
@@ -97,7 +127,7 @@
 
 <section class="products">
 
-   <h1 class="title">Danh sách sách cho mượn</h1>
+   <h1 class="title">Danh sách phim đang chiếu</h1>
    <div class="list-cate">
       <?php  
          $select_categoriess = mysqli_query($conn, "SELECT * FROM `categories`") or die('query failed');
@@ -117,24 +147,24 @@
       if(isset($_GET['cate_id'])) {
          $cate_id = $_GET['cate_id'];
       } else {
-         $cate_id =1;
+         $cate_id = 6;
       }
-         $select_products = mysqli_query($conn, "SELECT b.* FROM books b JOIN categories c ON b.cate_id = c.id  WHERE cate_id = $cate_id AND b.quantity > 0") or die('query failed');
+         $select_products = mysqli_query($conn, "SELECT f.* FROM films f JOIN categories c ON f.cate_id = c.id  WHERE cate_id = $cate_id") or die('query failed');
          if(mysqli_num_rows($select_products) > 0){
             while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
-         <form action="" method="post" class="box">
+         <form style="height: -webkit-fill-available;" action="" method="post" class="box">
             <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
             <div class="name"><?php echo $fetch_products['name']; ?></div>
             <div class="book-action">
-               <a href="book_detail.php?book_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin sách</a>
-               <a href="book_borrow.php?book_id=<?php echo $fetch_products['id'] ?>" class="borrow-book" >Mượn sách</a>
+               <a href="book_detail.php?book_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin phim</a>
+               <a href="book_borrow.php?book_id=<?php echo $fetch_products['id'] ?>" class="borrow_book" >Đặt vé</a>
             </div>
          </form>
       <?php
             }
          }else{
-            echo '<p class="empty">Chưa có truyện để cho mượn!</p>';
+            echo '<p class="empty">Chưa có film để đặt!</p>';
          }
       ?>
    </div>

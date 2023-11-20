@@ -10,12 +10,6 @@
       header('location:login.php');
    }
 
-   // Lấy tổng số người đang xem sách
-   $sql = "SELECT SUM(is_logged_in) as totalView FROM users";
-   $resulttotalView = $conn->query($sql);
-   $rowTotalView = $resulttotalView->fetch_assoc();
-   $totalView = $rowTotalView['totalView'];
-
 
    if(isset($_GET['delete'])){//xóa người dùng từ onclick href='delete'
       $delete_id = $_GET['delete'];
