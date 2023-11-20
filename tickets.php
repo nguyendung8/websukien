@@ -18,7 +18,7 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Danh sách phiếu mượn</title>
+   <title>Danh sách vé đã đặt</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
@@ -44,19 +44,14 @@
    
 <?php include 'header.php'; ?>
 
-<div class="heading">
-   <h3>Danh sách phiếu mượn</h3>
-   <p> <a href="home.php">Trang chủ</a> / Danh sách phiếu mượn  </p>
-</div>
-
 <section class="placed-orders">
 
-   <h1 class="title">Danh sách phiếu mượn của bạn</h1>
+   <h1 class="title">Danh sách vé đã đặt của bạn</h1>
 
    <div class="borrow-container">
 
       <?php
-         $order_query = mysqli_query($conn, "SELECT * FROM `borrows` WHERE user_id = '$user_id'") or die('query failed');
+         $order_query = mysqli_query($conn, "SELECT * FROM `tickets` WHERE user_id = '$user_id'") or die('query failed');
          if(mysqli_num_rows($order_query) > 0){
             while($fetch_borrows = mysqli_fetch_assoc($order_query)){
       ?>
@@ -82,7 +77,7 @@
       <?php
        }
       }else{
-         echo '<p class="empty">Chưa có đơn hàng được đặt!</p>';
+         echo '<p class="empty">Chưa có vé nào được đặt!</p>';
       }
       ?>
    </div>

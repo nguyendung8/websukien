@@ -26,11 +26,6 @@
    
 <?php include 'header.php'; ?>
 
-<div class="heading">
-   <h3>Về Comic</h3>
-   <p> <a href="home.php">Trang chủ</a> / Thông tin </p>
-</div>
-
 <section class="about">
 
    <div class="flex">

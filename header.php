@@ -26,14 +26,14 @@
    <div class="header-2">
       <div class="flex">
          <a href="home.php" class="logo">
-            <img width="200px" src="./images/logo.png" alt="">
+            <img width="155px" src="./images/logo.png" alt="">
          </a>
 
          <nav class="navbar">
             <a href="home.php">Trang chủ</a>
             <a href="about.php">Thông tin</a>
             <a href="contact.php">Liên hệ</a>
-            <a href="borrows.php">Đã đặt</a>
+            <a href="tickets.php">Đã đặt</a>
          </nav>
 
          <div class="icons">
