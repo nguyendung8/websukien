@@ -166,8 +166,8 @@
             <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
             <div class="name"><?php echo $fetch_products['name']; ?></div>
             <div class="book-action">
-               <a href="book_detail.php?book_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin phim</a>
-               <a href="book_borrow.php?book_id=<?php echo $fetch_products['id'] ?>" class="borrow_book" >Đặt vé</a>
+               <a href="film_detail.php?film_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin phim</a>
+               <a href="book_ticket.php?film_id=<?php echo $fetch_products['id'] ?>" class="borrow_book" >Đặt vé</a>
             </div>
          </form>
       <?php

@@ -9,12 +9,12 @@
    if(!isset($user_id)){// session không tồn tại => quay lại trang đăng nhập
       header('location:login.php');
    }
-   $book_id = $_GET['book_id'];
+   $film_id = $_GET['film_id'];
 
    // Lấy ra thông tin sách
-   $sql = "SELECT * FROM books WHERE id = $book_id";
+   $sql = "SELECT * FROM films WHERE id = $film_id";
    $result = $conn->query($sql);
-   $bookItem = $result->fetch_assoc();
+   $filmItem = $result->fetch_assoc();
 
    // Lấy ra thông tin user
    $sql1 = "SELECT * FROM users WHERE id = $user_id";
@@ -25,16 +25,15 @@
    if(isset($_POST['submit'])) {
       $userName = $user['name'];
       $userId = $user_id;
-      $book_name = $bookItem['name'];
-      $book_img = $bookItem['image'];
-      $book_quantity = $_POST['quantity'];
+      $film_name = $filmItem['name'];
+      $film_img = $filmItem['image'];
+      $ticket_quantity = $_POST['quantity'];
       $email = mysqli_real_escape_string($conn, $_POST['email']);
       $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-      $expired_time = mysqli_real_escape_string($conn, $_POST['expired_time']);
 
-      mysqli_query($conn, "INSERT INTO `borrows`(user_id, book_id, book_name, borrow_quantity, book_img, user_name, email, phone, expired_time) VALUES('$userId', '$book_id', '$book_name','$book_quantity', '$book_img', '$userName', '$email', '$phone', '$expired_time')") or die('query failed');
-      $message[] = 'Mượn sách thành công!';
-      header('location:home.php');
+      mysqli_query($conn, "INSERT INTO `tickets`(user_id, film_id, film_name, ticket_quantity, film_img, user_name, email, phone) VALUES('$userId', '$film_id', '$film_name','$ticket_quantity', '$film_img', '$userName', '$email', '$phone')") or die('query failed');
+      $message[] = 'Đặt vé thành công!';
+      // header('location:home.php');
    }
 ?>
 
@@ -44,7 +43,7 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Mượn sách</title>
+   <title>Đặt vé</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
@@ -81,18 +80,27 @@
          margin-top: 20px;
          font-size: 16px;
       }
-      .form-item label {
-         font-size: 16px;
+      .form-item {
+         display: flex;
+         align-items: center;
+         justify-content: space-evenly;
+         padding: 0 15px;
+      }
+      .form-item span {
+         font-size: 18px;
+         flex: 0.5;
       }
       .form-item input {
          border: 1px solid #eee !important;
          padding: 7px 18px;
          margin-top: 4px;
+         flex: 1;
+         font-size: 15px;
       }
-      .borrow-input {
-         margin-top: 10px;
+      .book_ticket_input {
          display: flex;
-         border-radius: 4px;
+         flex-direction: column;
+         align-items: center;
       }
       .borrow-btn {
          margin-top: 21px;
@@ -112,53 +120,48 @@
    
 <?php include 'header.php'; ?>
 
-<div class="heading">
-   <h3>Mượn sách</h3>
-   <p> <a href="home.php">Trang chủ</a> / Mượn sách </p>
-</div>
-
 <section class="view-book">
-   <?php if ($bookItem) : ?>
+   <?php if ($filmItem) : ?>
          <!-- Modal View Detail Book -->
       <form class="modal" method="post">
          <div class="modal-container">
-            <h3 class="bookdetail-title">Mượn sách <?php echo($bookItem['name']) ?></h3>
+            <h3 class="bookdetail-title">Đặt vé <?php echo($filmItem['name']) ?></h3>
             <div>
-               <img class="bookdetail-img" src="uploaded_img/<?php echo $bookItem['image']; ?>" alt="">
+               <img class="bookdetail-img" src="uploaded_img/<?php echo $filmItem['image']; ?>" alt="">
             </div>
             <p class="bookdetail-author">
-               Tác giả: 
-               <?php echo ($bookItem['author']) ?>
+               Thời lượng: 
+               <?php echo ($filmItem['show_time']) ?>
             </p>
-            <p class="bookdetail-desc">
-               Mô tả: 
-               <?php echo($bookItem['describes'])  ?>
+            <p class="bookdetail-author">
+               Đạo diễn: 
+               <?php echo ($filmItem['director']) ?>
             </p>
-            <div class="borrow-input">
+            <p class="bookdetail-author">
+               Diễn viên: 
+               <?php echo ($filmItem['performer']) ?>
+            </p>
+            <p class="bookdetail-author">
+               Số lượng vé còn lại: 
+               <?php echo ($filmItem['seat_quantity']) ?> vé
+            </p>
                <div class="form-item">
-                  <label for="">Thời hạn mượn: </label>
-                  <input type="text" name="expired_time" id="" placeholder="Nhập số ngày mượn sách" required>
+                  <span for="">Số lượng vé đặt: </span>
+                  <input type="number" max="<?php echo $filmItem['seat_quantity']; ?>" min="<?=($filmItem['seat_quantity']>0) ? 1:0 ?>" name="quantity" placeholder="Nhập số lượng vé" required>
                </div>
                <div class="form-item">
-                  <label for="">Số lượng mượn: </label>
-                  <input style=" width: 74%;" type="number" max="<?php echo $bookItem['quantity']; ?>" min="<?=($bookItem['quantity']>0) ? 1:0 ?>" name="quantity" placeholder="Nhập số lượng mượn" required>
-               </div>
-            </div>
-            <div class="borrow-input">
-               <div style="margin-left: 52px;" class="form-item">
-                  <label for="">Email: </label>
+                  <span for="">Email: </span>
                   <input type="email" name="email" id="" placeholder="Nhập email" required>
                </div>
                <div class="form-item">
-                  <label for="">Số điện thoại: </label>
+                  <span for="">Số điện thoại: </span>
                   <input type="text" min="10" max="10" name="phone" id="" placeholder="Nhập số điện thoại" required>
                </div>
-            </div>
-            <input class="borrow-btn" name="submit" type="submit" value="Mượn sách">
+            <input class="borrow-btn" name="submit" type="submit" value="Đặt vé">
          </div>
       </form>
    <?php else : ?>
-      <p style="font-size: 20px; text-align: center;">Không mượn được sách này</p>
+      <p style="font-size: 20px; text-align: center;">Không xem được phim này</p>
    <?php endif; ?>
 
 </section>

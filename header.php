@@ -33,7 +33,7 @@
             <a href="home.php">Trang chủ</a>
             <a href="about.php">Thông tin</a>
             <a href="contact.php">Liên hệ</a>
-            <a href="borrows.php">Đã mượn</a>
+            <a href="borrows.php">Đã đặt</a>
          </nav>
 
          <div class="icons">
