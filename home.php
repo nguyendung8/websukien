@@ -85,6 +85,15 @@
          color: #fff;
          font-weight: 700;
       }
+      .home-banner {
+         min-height: 70vh;
+         background:linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.1)), url(./images/home_bg.jpg) no-repeat;
+         background-size: cover;
+         background-position: center;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+      }
 
    </style>
 </head>
@@ -92,30 +101,30 @@
    
 <?php include 'header.php'; ?>
 
-<section class="home">
+<section class="home home-banner">
 
    <div class="content">
       <div class="slideshow-container">
          <div class="slide fade">
-            <img src="./images/slide1.jpg" alt="slide 1">
+            <img src="./images/slider1.jpg" alt="slide 1">
          </div>
          <div class="slide fade">
-            <img src="./images/slide2.jpg" alt="slide 2">
+            <img src="./images/slider2.jpg" alt="slide 2">
          </div>
          <div class="slide fade">
-            <img src="./images/slide3.jpg" alt="slide 3">
+            <img src="./images/slider3.jpg" alt="slide 3">
          </div>
          <div class="slide fade">
-            <img src="./images/slide4.jpg" alt="slide 3">
+            <img src="./images/slider4.jpg" alt="slide 3">
          </div>
          <div class="slide fade">
-            <img src="./images/slide5.jpg" alt="slide 3">
+            <img src="./images/slider5.jpg" alt="slide 3">
          </div>
          <div class="slide fade">
-            <img src="./images/slide6.jpg" alt="slide 3">
+            <img src="./images/slider6.jpg" alt="slide 3">
          </div>
          <div class="slide fade">
-            <img src="./images/slide7.jpg" alt="slide 3">
+            <img src="./images/slider7.jpg" alt="slide 3">
          </div>
       </div>
       <!-- <h3>Mỗi ngày một quyển sách.</h3>
