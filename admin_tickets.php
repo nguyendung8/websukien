@@ -12,22 +12,22 @@
    
    // Click duyệt
    if(isset($_POST['confirmed'])) {
-      $book_id = $_POST['book_id'];
+      $film_id = $_POST['film_id'];
       
       // Lấy thông tin sách
-      $sql = "SELECT * FROM books WHERE id = $book_id";
+      $sql = "SELECT * FROM films WHERE id = $film_id";
       $result = $conn->query($sql);
-      $bookItem = $result->fetch_assoc();
-      $book_current_quantity = $bookItem['quantity'];
+      $filmItem = $result->fetch_assoc();
+      $film_current_quantity = $filmItem['seat_quantity'];
 
-      $book_quantity = $_POST['book_quantity'];
-      $borrow_id = $_POST['borrow_id'];
-      if($book_current_quantity >= $book_quantity) {
-         mysqli_query($conn, "UPDATE books SET quantity = quantity - $book_quantity WHERE id = $book_id;") or die('query failed');
-         mysqli_query($conn1, "UPDATE borrows SET borrows.is_confirmed = 1 WHERE borrows.id = $borrow_id;") or die('query failed');
-         $message[] = 'Duyệt sách thành công!';
+      $ticket_quantity = $_POST['ticket_quantity'];
+      $book_ticket_id = $_POST['book_ticket_id'];
+      if($film_current_quantity >= $ticket_quantity) {
+         mysqli_query($conn, "UPDATE films SET seat_quantity = seat_quantity - $ticket_quantity WHERE id = $film_id;") or die('query failed');
+         mysqli_query($conn1, "UPDATE tickets SET tickets.is_confirmed = 1 WHERE tickets.id = $book_ticket_id;") or die('query failed');
+         $message[] = 'Xác nhận vé thành công!';
       } else {
-         $message[] = 'Số lượng sách này ở trong kho hiện tại không đủ, hãy nhập thêm sách!';
+         $message[] = 'Số lượng vé của phim này đã hết!';
       }
    }
 
@@ -39,7 +39,7 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Phiếu mượn</title>
+   <title>Phiếu đặt</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/admin_style.css">
@@ -64,25 +64,25 @@
 
 <section class="orders">
 
-   <h1 class="title">Phiếu mượn</h1>
+   <h1 class="title">Danh sách phiếu đặt</h1>
    <div class="box-container">
       <?php
-         $select_orders = mysqli_query($conn, "SELECT * FROM `borrows`") or die('query failed');
+         $select_orders = mysqli_query($conn, "SELECT * FROM `tickets`") or die('query failed');
          if(mysqli_num_rows($select_orders) > 0){
-            while($fetch_borrows = mysqli_fetch_assoc($select_orders)){
+            while($fetch_tickets = mysqli_fetch_assoc($select_orders)){
       ?>
                <div style="text-align: center;" class="box">
-                  <p> User id : <span><?php echo $fetch_borrows['user_id']; ?></span> </p>
-                  <p> Tên : <span><?php echo $fetch_borrows['user_name']; ?></span> </p>
-                  <p> Email : <span><?php echo $fetch_borrows['email']; ?></span> </p>
-                  <p> Số điện thoại : <span><?php echo $fetch_borrows['phone']; ?></span> </p>
-                  <p> Tên sách : <span><?php echo $fetch_borrows['book_name']; ?></span> </p>
-                  <p> Số lượng mượn : <span><?php echo $fetch_borrows['borrow_quantity']; ?> quyển</span> </p>
-                  <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_borrows['book_img']; ?>" alt="">
+                  <p> User id : <span><?php echo $fetch_tickets['user_id']; ?></span> </p>
+                  <p> Tên : <span><?php echo $fetch_tickets['user_name']; ?></span> </p>
+                  <p> Email : <span><?php echo $fetch_tickets['email']; ?></span> </p>
+                  <p> Số điện thoại : <span><?php echo $fetch_tickets['phone']; ?></span> </p>
+                  <p> Tên phim : <span><?php echo $fetch_tickets['film_name']; ?></span> </p>
+                  <p> Số lượng vé : <span><?php echo $fetch_tickets['ticket_quantity']; ?> vé</span> </p>
+                  <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_tickets['film_img']; ?>" alt="">
                   <p style="margin-top: 10px;"> Trạng thái  : 
-                     <span style="color:<?php if($fetch_borrows['is_confirmed'] == 1){ echo 'green'; }else if($fetch_borrows['is_confirmed'] == '0'){ echo 'red'; }else{ echo 'orange'; } ?>;">
-                        <?php if ($fetch_borrows['is_confirmed'] == 1) {
-                              echo 'Đã duyệt';
+                     <span style="color:<?php if($fetch_tickets['is_confirmed'] == 1){ echo 'green'; }else if($fetch_tickets['is_confirmed'] == '0'){ echo 'red'; }else{ echo 'orange'; } ?>;">
+                        <?php if ($fetch_tickets['is_confirmed'] == 1) {
+                              echo 'Đã xác nhận';
                            } else {
                               echo 'Chờ xử lý';
                            }
@@ -90,10 +90,10 @@
                      </span> 
                   </p>
                   <form action="" method="post">
-                     <input type="hidden" name="book_id" value="<?php echo $fetch_borrows['book_id'] ?>">
-                     <input type="hidden" name="book_quantity" value="<?php echo $fetch_borrows['borrow_quantity'] ?>">
-                     <input type="hidden" name="borrow_id" value="<?php echo $fetch_borrows['id'] ?>">
-                     <input style="background:<?php if($fetch_borrows['is_confirmed'] == 1){ echo '#12c811c7'; } else{ echo 'red'; } ?>;" class="confirm-btn" type="submit" value=" <?php if ($fetch_borrows['is_confirmed'] == 1) {echo 'Đã duyệt'; } else { echo 'Duyệt';}  ?>" name="confirmed" <?php if($fetch_borrows['is_confirmed'] == 1) echo 'disabled' ?> >
+                     <input type="hidden" name="film_id" value="<?php echo $fetch_tickets['film_id'] ?>">
+                     <input type="hidden" name="ticket_quantity" value="<?php echo $fetch_tickets['ticket_quantity'] ?>">
+                     <input type="hidden" name="book_ticket_id" value="<?php echo $fetch_tickets['id'] ?>">
+                     <input style="background:<?php if($fetch_tickets['is_confirmed'] == 1){ echo '#12c811c7'; } else{ echo 'red'; } ?>;" class="confirm-btn" type="submit" value=" <?php if ($fetch_tickets['is_confirmed'] == 1) {echo 'Đã xác nhận'; } else { echo 'Xác nhận';}  ?>" name="confirmed" <?php if($fetch_tickets['is_confirmed'] == 1) echo 'disabled' ?> >
                   </form>
                </div>
       <?php

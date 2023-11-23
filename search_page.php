@@ -23,20 +23,28 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="./css/main.css">
    <link rel="stylesheet" href="css/style.css">
-
+   <style>
+        .borrow_book:hover { 
+         opacity: 0.9;
+      }
+      .borrow_book {
+         padding: 5px 25px;
+         background-image: linear-gradient(to right, #ff9800, #F7695D);
+         border-radius: 4px;
+         cursor: pointer;
+         font-size: 20px;
+         color: #fff;
+         font-weight: 700;
+      }
+   </style>
 </head>
 <body>
    
 <?php include 'header.php'; ?>
 
-<div class="heading">
-   <h3>Trang tìm kiếm</h3>
-   <p> <a href="home.php">Trang chủ</a> / Tìm kiếm </p>
-</div>
-
 <section class="search-form">
    <form action="" method="post">
-      <input type="text" name="search" placeholder="Tìm truyện..." class="box"  value=" <?php if(isset($_POST['submit'])) echo($_POST['search'])?>">
+      <input type="text" name="search" placeholder="Tìm phim..." class="box"  value=" <?php if(isset($_POST['submit'])) echo($_POST['search'])?>">
       <input type="submit" name="submit" value="Tìm kiếm" class="btn">
    </form>
 </section>
@@ -47,23 +55,22 @@
       <?php
          if(isset($_POST['submit'])){
             $search_item = trim($_POST['search']);
-            $select_products = mysqli_query($conn, "SELECT * FROM `books` WHERE name LIKE '%{$search_item}%' AND books.quantity > 0") or die('query failed');
+            $select_products = mysqli_query($conn, "SELECT * FROM `films` WHERE name LIKE '%{$search_item}%'") or die('query failed');
             if(mysqli_num_rows($select_products) > 0){
                while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
-                  <form action="" method="post" class="box">
+                  <form style="height: -webkit-fill-available;" action="" method="post" class="box">
                      <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
                      <div class="name"><?php echo $fetch_products['name']; ?></div>
-                     <div class="name"><?php echo $fetch_products['describes']; ?></div>
                      <div class="book-action">
-                        <a href="book_detail.php?book_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin sách</a>
-                        <button class="borrow-book" type="submit">Mượn sách</button>
+                        <a href="film_detail.php?film_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin phim</a>
+                        <a href="book_ticket.php?film_id=<?php echo $fetch_products['id'] ?>" class="borrow_book" >Đặt vé</a>
                      </div>
                   </form>
       <?php
                }
             }else{
-               echo '<p class="empty">Không tìm thấy kết quả phù hợp với yêu cầu tìm kiếm cảu bạn!</p>';
+               echo '<p class="empty">Không tìm thấy kết quả phù hợp với yêu cầu tìm kiếm của bạn!</p>';
             }
          }else{
             echo '<p class="empty"">Hãy tìm kiếm gì đó!</p>';

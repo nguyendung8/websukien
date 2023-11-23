@@ -127,7 +127,7 @@
          if(mysqli_num_rows($select_products) > 0){
             while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
-               <div class="box">
+               <div style="height: -webkit-fill-available;" class="box">
                   <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
                   <div class="name"><?php echo $fetch_products['name']; ?></div>
                   <a href="admin_products.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn">Cập nhật</a>

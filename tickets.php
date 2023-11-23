@@ -38,6 +38,16 @@
       .borrow-box p {
          padding: 4px 0;
       }
+      .cancel_ticket {
+         border: 1px solid #ddd;
+         padding: 4px 15px;
+         border-radius: 4px;
+         background: #ddb;
+         color: red;
+      }
+      .cancel_ticket:hover {
+         opacity: 0.8;
+      }
    </style>
 </head>
 <body>
@@ -53,27 +63,32 @@
       <?php
          $order_query = mysqli_query($conn, "SELECT * FROM `tickets` WHERE user_id = '$user_id'") or die('query failed');
          if(mysqli_num_rows($order_query) > 0){
-            while($fetch_borrows = mysqli_fetch_assoc($order_query)){
+            while($fetch_tickets = mysqli_fetch_assoc($order_query)){
       ?>
       <div class="borrow-box">
-         <p> Tên : <span><?php echo $fetch_borrows['user_name']; ?></span> </p>
-         <p> Email : <span><?php echo $fetch_borrows['email']; ?></span> </p>
-         <p> Số điện thoại : <span><?php echo $fetch_borrows['phone']; ?></span> </p>
-         <p> Tên sách : <span><?php echo $fetch_borrows['book_name']; ?></span> </p>
-         <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_borrows['book_img']; ?>" alt="">
-         <p> Số lượng mượn : <span><?php echo $fetch_borrows['borrow_quantity']; ?> quyển</span> </p>
-         <p> Thời hạn mượn : <span><?php echo $fetch_borrows['expired_time']; ?> ngày</span> </p>
-         <p> Trạng thái  : 
-            <span style="color:<?php if($fetch_borrows['is_confirmed'] == 1){ echo 'green'; }else if($fetch_borrows['is_confirmed'] == '0'){ echo 'red'; }else{ echo 'orange'; } ?>;">
-               <?php if ($fetch_borrows['is_confirmed'] == 1) {
-                     echo 'Đã duyệt';
+         <p> Tên : <span><?php echo $fetch_tickets['user_name']; ?></span> </p>
+         <p> Email : <span><?php echo $fetch_tickets['email']; ?></span> </p>
+         <p> Số điện thoại : <span><?php echo $fetch_tickets['phone']; ?></span> </p>
+         <p> Tên phim : <span><?php echo $fetch_tickets['film_name']; ?></span> </p>
+         <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_tickets['film_img']; ?>" alt="">
+         <p> Số lượng vé đặt : <span><?php echo $fetch_tickets['ticket_quantity']; ?> vé</span> </p>
+         <p style="margin-bottom: 10px;"> Trạng thái  : 
+            <span style="color:<?php if($fetch_tickets['is_confirmed'] == 1){ echo 'green'; }else if($fetch_tickets['is_confirmed'] == '0'){ echo 'red'; }else{ echo 'orange'; } ?>;">
+               <?php if ($fetch_tickets['is_confirmed'] == 1) {
+                     echo 'Đã xác nhận';
                   } else {
                      echo 'Chờ xử lý';
                   }
                ?>
             </span> 
          </p>
-         </div>
+      <?php if($fetch_tickets['is_confirmed'] == 0) {
+      ?>
+         <a onclick="return confirmDelete()" class="cancel_ticket" href="cancel_ticket.php?ticket_id=<?php echo $fetch_tickets['id']  ?>">Hủy vé</a>
+      <?php 
+            } 
+      ?>
+      </div>
       <?php
        }
       }else{
@@ -87,6 +102,10 @@
 <?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
-
+<script>
+   function confirmDelete() {
+       return confirm("Bạn có chắc chắn muốn xóa vé này không?");
+    }
+</script>
 </body>
 </html>
