@@ -24,15 +24,15 @@
    </div>
 
    <div class="header-2">
-      <div class="flex">
+      <div style="padding: 5px !important;" class="flex">
          <a href="home.php" class="logo">
-            <img width="155px" src="./images/logo.png" alt="">
+            <img width="90px" src="./images/logo_evento.png" alt="">
          </a>
 
          <nav class="navbar">
             <a href="home.php">Trang chủ</a>
             <a href="contact.php">Liên hệ</a>
-            <a href="tickets.php">Đã đặt</a>
+            <a href="schedules.php">Lịch trình</a>
          </nav>
 
          <div class="icons">

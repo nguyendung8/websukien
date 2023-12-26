@@ -44,7 +44,7 @@
 
 <section class="search-form">
    <form action="" method="post">
-      <input type="text" name="search" placeholder="Tìm phim..." class="box"  value=" <?php if(isset($_POST['submit'])) echo($_POST['search'])?>">
+      <input type="text" name="search" placeholder="Tìm sự kiện..." class="box"  value=" <?php if(isset($_POST['submit'])) echo($_POST['search'])?>">
       <input type="submit" name="submit" value="Tìm kiếm" class="btn">
    </form>
 </section>
@@ -55,16 +55,16 @@
       <?php
          if(isset($_POST['submit'])){
             $search_item = trim($_POST['search']);
-            $select_products = mysqli_query($conn, "SELECT * FROM `films` WHERE name LIKE '%{$search_item}%'") or die('query failed');
+            $select_products = mysqli_query($conn, "SELECT * FROM `events` WHERE name LIKE '%{$search_item}%'") or die('query failed');
             if(mysqli_num_rows($select_products) > 0){
                while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
                   <form style="height: -webkit-fill-available;" action="" method="post" class="box">
-                     <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
+                     <img width="200px" height="200px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
                      <div class="name"><?php echo $fetch_products['name']; ?></div>
                      <div class="book-action">
-                        <a href="film_detail.php?film_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin phim</a>
-                        <a href="book_ticket.php?film_id=<?php echo $fetch_products['id'] ?>" class="borrow_book" >Đặt vé</a>
+                        <a href="event_detail.php?event_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin sự kiện</a>
+                        <a href="register_event.php?event_id=<?php echo $fetch_products['id'] ?>" class="borrow_book" >Đăng ký tham dự</a>
                      </div>
                   </form>
       <?php

@@ -18,7 +18,7 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Danh sách vé đã đặt</title>
+   <title>Lịch trình</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
@@ -29,6 +29,7 @@
          flex-wrap: wrap;
       }
       .borrow-box {
+         width: 325px;
          font-size: 19px;
          border: 2px solid #eee;
          border-radius: 4px;
@@ -56,43 +57,47 @@
 
 <section class="placed-orders">
 
-   <h1 class="title">Danh sách vé đã đặt của bạn</h1>
+   <h1 class="title">Lịch trình của bạn</h1>
 
    <div class="borrow-container">
 
       <?php
-         $order_query = mysqli_query($conn, "SELECT * FROM `tickets` WHERE user_id = '$user_id'") or die('query failed');
-         if(mysqli_num_rows($order_query) > 0){
-            while($fetch_tickets = mysqli_fetch_assoc($order_query)){
+         $register_query = mysqli_query($conn, "SELECT * FROM `schedules` WHERE user_id = '$user_id'") or die('query failed');
+         if(mysqli_num_rows($register_query) > 0){
+            while($fetch_event = mysqli_fetch_assoc($register_query)){
       ?>
       <div class="borrow-box">
-         <p> Tên : <span><?php echo $fetch_tickets['user_name']; ?></span> </p>
-         <p> Email : <span><?php echo $fetch_tickets['email']; ?></span> </p>
-         <p> Số điện thoại : <span><?php echo $fetch_tickets['phone']; ?></span> </p>
-         <p> Tên phim : <span><?php echo $fetch_tickets['film_name']; ?></span> </p>
-         <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_tickets['film_img']; ?>" alt="">
-         <p> Số lượng vé đặt : <span><?php echo $fetch_tickets['ticket_quantity']; ?> vé</span> </p>
+         <p> Tên sự kiện : <span><?php echo $fetch_event['event_name']; ?></span> </p>
+         <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_event['event_img']; ?>" alt="">
+         <?php
+         $event_id =$fetch_event['event_id'];
+         $event_query = mysqli_query($conn, "SELECT * FROM `events` WHERE id = '$event_id'") or die('query failed');
+         $fetch_info_event = mysqli_fetch_assoc($event_query)
+         ?>
+         <p> Địa điểm : <span><?php echo $fetch_info_event['address']; ?></span> </p>
+         <p> Thời gian : 
+            <span>
+                <?php 
+                  $date_object = DateTime::createFromFormat('Y-m-d', $fetch_info_event['time']);
+                  echo $date_object->format('d-m-Y');
+               ?>
+            </span>  
+         </p>
          <p style="margin-bottom: 10px;"> Trạng thái  : 
-            <span style="color:<?php if($fetch_tickets['is_confirmed'] == 1){ echo 'green'; }else if($fetch_tickets['is_confirmed'] == '0'){ echo 'red'; }else{ echo 'orange'; } ?>;">
-               <?php if ($fetch_tickets['is_confirmed'] == 1) {
+            <span style="color:<?php if($fetch_event['is_confirmed'] == 1){ echo 'green'; }else if($fetch_event['is_confirmed'] == '0'){ echo 'red'; }else{ echo 'orange'; } ?>;">
+               <?php if ($fetch_event['is_confirmed'] == 1) {
                      echo 'Đã xác nhận';
                   } else {
-                     echo 'Chờ xử lý';
+                     echo 'Chờ xác nhận';
                   }
                ?>
             </span> 
          </p>
-      <?php if($fetch_tickets['is_confirmed'] == 0) {
-      ?>
-         <a onclick="return confirmDelete()" class="cancel_ticket" href="cancel_ticket.php?ticket_id=<?php echo $fetch_tickets['id']  ?>">Hủy vé</a>
-      <?php 
-            } 
-      ?>
       </div>
       <?php
        }
       }else{
-         echo '<p class="empty">Chưa có vé nào được đặt!</p>';
+         echo '<p class="empty">Chưa có sự kiện nào được đăng ký!</p>';
       }
       ?>
    </div>
@@ -102,10 +107,5 @@
 <?php include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
-<script>
-   function confirmDelete() {
-       return confirm("Bạn có chắc chắn muốn xóa vé này không?");
-    }
-</script>
 </body>
 </html>

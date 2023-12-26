@@ -95,7 +95,10 @@
             </p>
             <p class="bookdetail-author">
                Thời gian: 
-               <?php echo ($eventItem['time']) ?>
+               <?php 
+                  $date_object = DateTime::createFromFormat('Y-m-d', $eventItem['time']);
+                  echo $date_object->format('d-m-Y');
+               ?>
             </p>
             <p class="bookdetail-author">
                Mô tả: 
