@@ -9,11 +9,11 @@
    if(!isset($user_id)){// session không tồn tại => quay lại trang đăng nhập
       header('location:login.php');
    }
-   $film_id = $_GET['film_id'];
+   $event_id = $_GET['event_id'];
 
-   $sql = "SELECT * FROM films WHERE id = $film_id";
+   $sql = "SELECT * FROM events WHERE id = $event_id";
    $result = $conn->query($sql);
-   $filmItem = $result->fetch_assoc()
+   $eventItem = $result->fetch_assoc()
 
 
 ?>
@@ -24,7 +24,7 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Xem thông tin phim</title>
+   <title>Xem thông tin sự kiện</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
@@ -36,7 +36,7 @@
          width: 500px;
          margin: auto;
          border: 2px solid #eee;
-         padding-bottom: 27px;
+         padding: 20px 41px;
          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
          border-radius: 5px;
       }
@@ -54,8 +54,9 @@
          width: 230px;
       }
       .bookdetail-author {
-         margin-top: 19px;
+         margin-top: 11px;
          font-size: 20px;
+         margin-bottom: 25px;
       }
       .bookdetail-desc {
          margin: 20px 10px;
@@ -80,42 +81,31 @@
 <?php include 'header.php'; ?>
 
 <section class="view-book">
-   <?php if ($filmItem) : ?>
+   <?php if ($eventItem) : ?>
          <!-- Modal View Detail Book -->
       <div class="modal">
          <div class="modal-container">
-            <h3 class="bookdetail-title"><?php echo($filmItem['name']) ?></h3>
+            <h3 class="bookdetail-title"><?php echo($eventItem['name']) ?></h3>
             <div>
-               <img class="bookdetail-img" src="uploaded_img/<?php echo $filmItem['image']; ?>" alt="">
+               <img class="bookdetail-img" src="uploaded_img/<?php echo $eventItem['image']; ?>" alt="">
             </div>
             <p class="bookdetail-author">
-               Xuất xứ: 
-               <?php echo ($filmItem['origin']) ?>
+               Địa điểm: 
+               <?php echo ($eventItem['address']) ?>
             </p>
             <p class="bookdetail-author">
-               Thời lượng: 
-               <?php echo ($filmItem['show_time']) ?>
+               Thời gian: 
+               <?php echo ($eventItem['time']) ?>
             </p>
             <p class="bookdetail-author">
-               Đạo diễn: 
-               <?php echo ($filmItem['director']) ?>
+               Mô tả: 
+               <?php echo ($eventItem['description']) ?>
             </p>
-            <p class="bookdetail-author">
-               Diễn viên: 
-               <?php echo ($filmItem['performer']) ?>
-            </p>
-            <p class="bookdetail-author">
-               Số lượng vé còn lại: 
-               <?php echo ($filmItem['seat_quantity']) ?> vé
-            </p>
-            <p style="color: red;" class="bookdetail-desc">
-               <?php echo($filmItem['age_limit'])  ?>
-            </p>
-            <a href="book_ticket.php?film_id=<?php echo $filmItem['id'] ?>" class="borrow_book" >Đặt vé</a>
+            <a href="register_event.php?event_id=<?php echo $eventItem['id'] ?>" class="borrow_book" >Đăng ký tham dự</a>
          </div>
       </div>
    <?php else : ?>
-      <p style="font-size: 20px; text-align: center;">Không xem được chi tiết sách này</p>
+      <p style="font-size: 20px; text-align: center;">Không xem được chi tiết sự kiện này</p>
    <?php endif; ?>
 
 </section>

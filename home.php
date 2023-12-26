@@ -87,7 +87,7 @@
       }
       .home-banner {
          min-height: 70vh;
-         background:linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.1)), url(./images/home_bg.jpg) no-repeat;
+         background:linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.1)), url(./images/home_background.png) no-repeat;
          background-size: cover;
          background-position: center;
          display: flex;
@@ -106,25 +106,16 @@
    <div class="content">
       <div class="slideshow-container">
          <div class="slide fade">
-            <img src="./images/slider1.jpg" alt="slide 1">
+            <img src="./images/slide1.jpg" alt="slide 1">
          </div>
          <div class="slide fade">
-            <img src="./images/slider2.jpg" alt="slide 2">
+            <img src="./images/slide2.jpg" alt="slide 2">
          </div>
          <div class="slide fade">
-            <img src="./images/slider3.jpg" alt="slide 3">
+            <img src="./images/slide3.jpg" alt="slide 3">
          </div>
          <div class="slide fade">
-            <img src="./images/slider4.jpg" alt="slide 3">
-         </div>
-         <div class="slide fade">
-            <img src="./images/slider5.jpg" alt="slide 3">
-         </div>
-         <div class="slide fade">
-            <img src="./images/slider6.jpg" alt="slide 3">
-         </div>
-         <div class="slide fade">
-            <img src="./images/slider7.jpg" alt="slide 3">
+            <img src="./images/slide4.jpg" alt="slide 3">
          </div>
       </div>
       <!-- <h3>Mỗi ngày một quyển sách.</h3>
@@ -136,21 +127,7 @@
 
 <section class="products">
 
-   <h1 class="title">Danh sách phim đang chiếu</h1>
-   <div class="list-cate">
-      <?php  
-         $select_categoriess = mysqli_query($conn, "SELECT * FROM `categories`") or die('query failed');
-         if(mysqli_num_rows($select_categoriess) > 0){
-            while($fetch_categoriess = mysqli_fetch_assoc($select_categoriess)){
-      ?>
-                  <a href="?cate_id=<?php echo $fetch_categoriess['id']; ?> "><?php echo $fetch_categoriess['cate_name']; ?></a>
-      <?php
-            }
-         }else{
-            echo '<p class="empty">Chưa có danh mục nào!</p>';
-         }
-      ?>
-   </div>
+   <h1 class="title">Danh sách sự kiện sắp tới</h1>
    <div class="box-container">
       <?php
       if(isset($_GET['cate_id'])) {
@@ -158,16 +135,16 @@
       } else {
          $cate_id = 6;
       }
-         $select_products = mysqli_query($conn, "SELECT f.* FROM films f JOIN categories c ON f.cate_id = c.id  WHERE cate_id = $cate_id") or die('query failed');
+         $select_products = mysqli_query($conn, "SELECT * FROM events") or die('query failed');
          if(mysqli_num_rows($select_products) > 0){
             while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
          <form style="height: -webkit-fill-available;" action="" method="post" class="box">
-            <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
+            <img width="200px" height="200px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
             <div class="name"><?php echo $fetch_products['name']; ?></div>
             <div class="book-action">
-               <a href="film_detail.php?film_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin phim</a>
-               <a href="book_ticket.php?film_id=<?php echo $fetch_products['id'] ?>" class="borrow_book" >Đặt vé</a>
+               <a href="event_detail.php?event_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin sự kiện</a>
+               <a href="register_event.php?event_id=<?php echo $fetch_products['id'] ?>" class="borrow_book" >Đăng ký tham dự</a>
             </div>
          </form>
       <?php
