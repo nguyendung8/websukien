@@ -140,7 +140,7 @@
             while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
          <form style="height: -webkit-fill-available;" action="" method="post" class="box">
-            <img width="200px" height="200px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
+            <img width="240px" height="200px" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
             <div class="name"><?php echo $fetch_products['name']; ?></div>
             <div class="book-action">
                <a href="event_detail.php?event_id=<?php echo $fetch_products['id'] ?>" class="view-book" >Xem thông tin sự kiện</a>

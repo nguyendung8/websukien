@@ -68,7 +68,7 @@
       ?>
       <div class="borrow-box">
          <p> Tên sự kiện : <span><?php echo $fetch_event['event_name']; ?></span> </p>
-         <img width="180px" height="207px" src="uploaded_img/<?php echo $fetch_event['event_img']; ?>" alt="">
+         <img width="290px" height="207px" src="uploaded_img/<?php echo $fetch_event['event_img']; ?>" alt="">
          <?php
          $event_id =$fetch_event['event_id'];
          $event_query = mysqli_query($conn, "SELECT * FROM `events` WHERE id = '$event_id'") or die('query failed');
